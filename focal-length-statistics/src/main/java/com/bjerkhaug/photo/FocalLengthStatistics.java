@@ -2,10 +2,9 @@ package com.bjerkhaug.photo;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
@@ -39,7 +38,7 @@ public class FocalLengthStatistics {
 	}
 
 	private static Map<Integer, Integer> createFocalLengthCount(File imageDirectory) throws Exception {
-		Map<Integer, Integer> focalLengthCount = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> focalLengthCount = new TreeMap<Integer, Integer>();
 		fillInFocalLengthCount(imageDirectory, focalLengthCount);
 		return focalLengthCount;
 	}
@@ -109,19 +108,18 @@ public class FocalLengthStatistics {
 	}
 
 	private static void printFocalLengths(Map<Integer, Integer> focalLengthCount) {
-		TreeSet<Integer> focalLengths = new TreeSet<Integer>(focalLengthCount.keySet());
-		for (Integer focalLength : focalLengths) {
+		for (Integer focalLength : focalLengthCount.keySet()) {
 			System.out.println(focalLength + "mm: " + focalLengthCount.get(focalLength));
 		}
 		System.out.println("Total number of files: " + findTotalNumberOfFiles(focalLengthCount));
 	}
 
-	private static String findTotalNumberOfFiles(Map<Integer, Integer> focalLengthCount) {
+	private static int findTotalNumberOfFiles(Map<Integer, Integer> focalLengthCount) {
 		int sum = 0;
 		for (Integer count : focalLengthCount.values()) {
 			sum += count;
 		}
-		return Integer.toString(sum);
+		return sum;
 	}
 	
 }
